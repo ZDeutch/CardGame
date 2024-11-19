@@ -26,4 +26,22 @@ public class Deck {
     public int getCardsLeft() {
         return cardsLeft;
     }
+
+    public Card deal() {
+        if(isEmpty()) {
+            return null;
+        }
+
+        cardsLeft--;
+        return cards.get(cardsLeft);
+    }
+
+    public void shuffle() {
+        for(int i = cards.size() - 1; i > 0; i--) {
+            int randomIndex = (int) (Math.random() * (i + 1));
+            Collections.swap(cards,i, randomIndex);
+        }
+
+        cardsLeft = cards.size();
+    }
 }
