@@ -8,11 +8,14 @@ public class Player {
     Player(String name) {
         this.name = name;
         points = 0;
+        hand = new ArrayList<Card>();
     }
 
     Player(String name, ArrayList<Card> c) {
         this.name = name;
         points = 0;
+        hand = c;
+
     }
 
     public ArrayList<Card> getHand() {
@@ -29,10 +32,19 @@ public class Player {
 
     public void addCard(Card c) {
         hand.add(c);
+        points += c.getValue();
+    }
+
+    public boolean isBusted() {
+        if(points > 21) {
+            return true;
+        }
+        return false;
     }
 
     public String toString() {
         return name + " has " + points + " points \n" + name + "'s cards: " + hand;
     }
+
 
 }
