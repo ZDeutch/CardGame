@@ -48,11 +48,27 @@ public class Game {
                     return;
                 }
             } else if(choice.equals("stand")) {
-                break;
+                notOver = false;
             } else {
                 System.out.println("Wrong choice. Please enter either 'hit' or 'stand'");
             }
         }
+    }
+
+    public void DealerTurn() {
+        System.out.println("Dealer's Turn: " + dealer.getHand());
+
+        while(dealer.getPoints() < 17) {
+            System.out.println("Dealer hits");
+            dealer.addCard(deck.deal());
+            dealer.getHand();
+
+            if(dealer.isBusted()) {
+                System.out.println("Dealer Loses!");
+                return;
+            }
+        }
+        System.out.println("Dealer Stands");
     }
 
 
