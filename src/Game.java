@@ -7,7 +7,10 @@ public class Game {
     private Player dealer;
 
     public Game() {
-        deck = new Deck();
+        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+        String[] suits = {"Spades", "Hearts", "Clubs", "Diamonds"};
+        int[] values = {1,2,3,4,5,6,7,8,9,10,10,10,10};
+        deck = new Deck(ranks, suits, values);
         deck.shuffle();
 
         player = new Player("Player");
