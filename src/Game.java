@@ -34,11 +34,11 @@ public class Game {
     }
 
     public void playerTurn() {
-        System.out.print("Your current hand: " + player.getHand());
+        System.out.print("\n\nYour current hand: " + player.getHand());
         boolean notOver = true;
 
         while(notOver) {
-            System.out.println("Do you want to hit or stand?");
+            System.out.println("\nDo you want to hit or stand?");
             String choice = s1.nextLine();
             if(choice.equals("hit")) {
                 player.addCard(deck.deal());
@@ -55,7 +55,7 @@ public class Game {
         }
     }
 
-    public void DealerTurn() {
+    public void dealerTurn() {
         System.out.println("Dealer's Turn: " + dealer.getHand());
 
         while(dealer.getPoints() < 17) {
@@ -71,10 +71,36 @@ public class Game {
         System.out.println("Dealer Stands");
     }
 
+    public void determineWinner() {
+        int pScore = player.getPoints();
+        int dScore = dealer.getPoints();
 
+        System.out.println("Final Scores: ");
+        System.out.println("Player: " + pScore);
+        System.out.println("Dealer: " + dScore);
+
+    }
+
+    public void playGame() {
+        printInstructions();
+        getFirstCards();
+
+        playerTurn();
+
+        if(!player.isBusted()) {
+            dealerTurn();
+        }
+
+        if(!player.isBusted() && !dealer.isBusted()) {
+            determineWinner();
+        }
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.playGame();
+    }
 }
 
-public static void main(String[] args) {
 
-}
 

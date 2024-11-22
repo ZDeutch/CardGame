@@ -28,7 +28,7 @@ public class Deck {
     }
 
     public Card deal() {
-        if(isEmpty()) {
+        if(isEmpty(cardsLeft)) {
             return null;
         }
 
@@ -39,9 +39,15 @@ public class Deck {
     public void shuffle() {
         for(int i = cards.size() - 1; i > 0; i--) {
             int randomIndex = (int) (Math.random() * (i + 1));
-            Collections.swap(cards,i, randomIndex);
+            swap(cards, i, randomIndex);
         }
 
         cardsLeft = cards.size();
+    }
+
+    public void swap(ArrayList<Card> cards, int i, int j) {
+        Card temp = cards.get(i);
+        cards.set(i, cards.get(j));
+        cards.set(j, temp);
     }
 }
