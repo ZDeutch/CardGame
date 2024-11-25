@@ -8,9 +8,11 @@ public class Game {
 
     public Game() {
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
-        String[] suits = {"Spades", "Hearts", "Clubs", "Diamonds"};
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
+        //String[] suits = {"\u2660\uFE0E", "\u2665\uFE0F", "\u2663\uFE0E", "\u2666\uFE0F"};
         int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
-        deck = new Deck(ranks, suits, values);
+        int[] realVal = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+        deck = new Deck(ranks, suits, values, realVal);
         deck.shuffle();
 
         player = new Player("Player");
@@ -26,15 +28,42 @@ public class Game {
         System.out.println("All cards are their given value, face cards are 10, and Ace is 1");
     }
 
+    public static String cardArt(Card c) {
+        if(c.getSuit() == "Hearts") {
+            return new String(Character.toChars(0x1F0B1 + c.getRealVal()));
+        } else if(c.getSuit() == "Diamonds") {
+            return new String(Character.toChars(0x1F0C1 + c.getRealVal()));
+        } else if(c.getSuit() == "Spades") {
+            return new String(Character.toChars(0x1F0A1 + c.getRealVal()));
+        } else if(c.getSuit() == "Clubs") {
+            return new String(Character.toChars(0x1F0D1 + c.getRealVal()));
+        } else {
+//            throw new Exception("Unknown Suit");
+            System.out.println("Unknown Suit Encountered.");
+            return "";
+        }
+    }
+
     public void getFirstCards() {
         player.addCard(deck.deal());
         player.addCard(deck.deal());
         dealer.addCard(deck.deal());
         dealer.addCard(deck.deal());
     }
+    public String cardArtHand(Player p) {
+        String[] artH = new String[p.getHand().size()];
+        for(int i = 0; i < p.getHand().size(); i++) {
+            artH[i] = cardArt(p.getHand().get(i));
+        }
+        String h = "";
+        for(int j = 0; j < artH.length; j++) {
+            h += artH[j];
+        }
+        return h;
 
+    }
     public void playerTurn() {
-        System.out.print("\n\nYour current hand: " + player.getHand());
+        System.out.print("\n\nYour current hand: " + cardArtHand(player));
         boolean notOver = true;
 
         while(notOver) {
@@ -42,9 +71,10 @@ public class Game {
             String choice = s1.nextLine();
             if(choice.equals("hit")) {
                 player.addCard(deck.deal());
-
+                System.out.println("\n\nYour current hand: " + player.getHand());
                 if(player.isBusted()) {
                     System.out.println("You lose!");
+
                     return;
                 }
             } else if(choice.equals("stand")) {
@@ -61,7 +91,7 @@ public class Game {
         while(dealer.getPoints() < 17) {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
-            dealer.getHand();
+            System.out.println("\n\nDealer's current hand: " + dealer.getHand());
 
             if(dealer.isBusted()) {
                 System.out.println("Dealer Loses!");
@@ -78,10 +108,21 @@ public class Game {
         System.out.println("Final Scores: ");
         System.out.println("Player: " + pScore);
         System.out.println("Dealer: " + dScore);
-
+        if(player.isBusted()) {
+            System.out.println("Dealer Wins!");
+        } else if(dealer.isBusted()) {
+            System.out.println("Player Wins!");
+        } else if(dScore > pScore) {
+            System.out.println("Dealer Wins!");
+        } else if(pScore > dScore) {
+            System.out.println("Player Wins!");
+        } else if(pScore == dScore) {
+            System.out.println("Nobody Wins!");
+        }
     }
 
     public void playGame() {
+
         printInstructions();
         getFirstCards();
 

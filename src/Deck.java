@@ -4,11 +4,22 @@ public class Deck {
     private ArrayList<Card> cards;
     private int cardsLeft;
 
-    public Deck(String[] ranks, String[] suits, int[] values) {
+//    public Deck(String[] ranks, String[] suits, int[] values) {
+//        cards = new ArrayList<Card>();
+//        for(int i = 0; i < ranks.length; i++){
+//            for(int j = 0; j < suits.length; j++) {
+//                Card c1 = new Card(ranks[i], suits[j], values[i]);
+//                cards.add(c1);
+//            }
+//        }
+//        cardsLeft = cards.size();
+//
+//    }
+    public Deck(String[] ranks, String[] suits, int[] values, int[] realVal) {
         cards = new ArrayList<Card>();
         for(int i = 0; i < ranks.length; i++){
             for(int j = 0; j < suits.length; j++) {
-                Card c1 = new Card(ranks[i], suits[j], values[i]);
+                Card c1 = new Card(ranks[i], suits[j], values[i], realVal[i]);
                 cards.add(c1);
             }
         }
