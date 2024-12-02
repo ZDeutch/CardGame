@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Deck {
-    private ArrayList<Card> cards;
+    private ArrayList<Card> deck;
     private int cardsLeft;
 
 //    public Deck(String[] ranks, String[] suits, int[] values) {
@@ -15,15 +15,15 @@ public class Deck {
 //        cardsLeft = cards.size();
 //
 //    }
-    public Deck(String[] ranks, String[] suits, int[] values, int[] realVal) {
-        cards = new ArrayList<Card>();
+    public Deck(String[] ranks, String[] suits, int[] values, int[] uniCodeVal) {
+        deck = new ArrayList<Card>();
         for(int i = 0; i < ranks.length; i++){
             for(int j = 0; j < suits.length; j++) {
-                Card c1 = new Card(ranks[i], suits[j], values[i], realVal[i]);
-                cards.add(c1);
+                Card c1 = new Card(ranks[i], suits[j], values[i], uniCodeVal[i]);
+                deck.add(c1);
             }
         }
-        cardsLeft = cards.size();
+        cardsLeft = deck.size();
 
     }
 
@@ -44,21 +44,15 @@ public class Deck {
         }
 
         cardsLeft--;
-        return cards.get(cardsLeft);
+        return deck.get(cardsLeft);
     }
 
     public void shuffle() {
-        for(int i = cards.size() - 1; i > 0; i--) {
-            int randomIndex = (int) (Math.random() * (i + 1));
-            swap(cards, i, randomIndex);
+        for(int i = cardsLeft - 1; i > 0; i--) {
+            int j = (int) (Math.random() * i);
+            Card k = deck.get(i);
+            deck.set(i, deck.get(j));
+            deck.set(j,k);
         }
-
-        cardsLeft = cards.size();
-    }
-
-    public void swap(ArrayList<Card> cards, int i, int j) {
-        Card temp = cards.get(i);
-        cards.set(i, cards.get(j));
-        cards.set(j, temp);
     }
 }
