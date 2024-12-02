@@ -38,7 +38,6 @@ public class Game {
         } else if(c.getSuit() == "\u2666\uFE0F") {
             return new String(Character.toChars(0x1F0D1 + c.getUniCodeVal()));
         } else {
-//            throw new Exception("Unknown Suit");
             System.out.println("Unknown Suit Encountered.");
             return "";
         }
