@@ -2,7 +2,7 @@ public class Card {
     private String rank;
     private String suit;
     private int value;
-    private int realVal;
+    private int uniCodeVal;
 
 //    Card(String r, String s, int v) {
 //        rank = r;
@@ -10,11 +10,11 @@ public class Card {
 //        value = v;
 //    }
 
-    Card(String r, String s, int v, int re) {
+    Card(String r, String s, int v, int uni) {
         rank = r;
         suit = s;
         value = v;
-        realVal = re;
+        uniCodeVal = uni;
     }
 
     public String getRank() {
@@ -41,8 +41,8 @@ public class Card {
         this.value = value;
     }
 
-    public int getRealVal() {
-        return realVal;
+    public int getUniCodeVal() {
+        return uniCodeVal;
     }
 
     public String toString() {
