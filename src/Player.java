@@ -23,7 +23,7 @@ public class Player {
     }
 
     public int getPoints() {
-        return points;
+        return computeAce();
     }
 
     public void addPoints(int p) {
@@ -32,7 +32,7 @@ public class Player {
 
     public void addCard(Card c) {
         hand.add(c);
-        points += c.getValue();
+        addPoints(c.getValue());
     }
 
     public boolean isBusted() {
@@ -43,8 +43,27 @@ public class Player {
     }
 
     public String toString() {
-        return name + " has " + points + " points \n" + name + "'s cards: " + hand;
+        return name + " has " + computeAce() + " points \n" + name + "'s cards: " + hand;
     }
 
+    public int computeAce() {
+        int counter = 0;
+        int tempPoints = 0;
+        for(int i = 0; i < hand.size(); i++) {
+            if(hand.get(i).getRank() == "Ace") {
+                counter++;
+                continue;
+            }
+            tempPoints += hand.get(i).getValue();
+        }
+        if(counter == 0) {
+            return tempPoints;
+        } else {
+            if(21 - tempPoints >= (counter + 10)) {
+                return tempPoints + 10 + counter;
+            }
+            return tempPoints + counter;
+        }
+    }
 
 }
