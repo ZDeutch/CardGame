@@ -38,7 +38,7 @@ public class Player {
 
     public boolean isBusted() {
         // Makes sure that the user hasn't gone over 21 and lost
-        if(points > 21) {
+        if (points > 21) {
             return true;
         }
         return false;
@@ -53,8 +53,8 @@ public class Player {
         int counter = 0;
         int tempPoints = 0;
         // See how many aces are in the hand
-        for(int i = 0; i < hand.size(); i++) {
-            if(hand.get(i).getRank() == "Ace") {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getRank() == "Ace") {
                 counter++;
                 continue;
             }
@@ -62,11 +62,11 @@ public class Player {
             tempPoints += hand.get(i).getValue();
         }
         // If their are no aces, points remain the same
-        if(counter == 0) {
+        if (counter == 0) {
             return tempPoints;
         } else {
             // otherwise, if there is enough room, 1 ace is 11 and the rest are 1
-            if(21 - tempPoints >= (counter + 10)) {
+            if (21 - tempPoints >= (counter + 10)) {
                 return tempPoints + 10 + counter;
             }
             // if not, all aces are 1

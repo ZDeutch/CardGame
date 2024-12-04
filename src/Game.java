@@ -14,7 +14,7 @@ public class Game {
     //Setting these constant variables as the hex for each suit
     final static private int CARD_ART_SPADES = 0x1F0A1;
     final static private int CARD_ART_CLUBS = 0x1F0D1;
-    final static private int CARD_ART_HEARTS= 0x1F0B1;
+    final static private int CARD_ART_HEARTS = 0x1F0B1;
     final static private int CARD_ART_DIAMONDS = 0x1F0C1;
     Scanner s1 = new Scanner(System.in);
 
@@ -49,16 +49,17 @@ public class Game {
         dealer.addCard(deck.deal());
         dealer.addCard(deck.deal());
     }
+
     public String cardArtHand(Player p) {
         // Create an array the size of the player's hand
         String[] artH = new String[p.getHand().size()];
-        for(int i = 0; i < p.getHand().size(); i++) {
+        for (int i = 0; i < p.getHand().size(); i++) {
             //For each card, pass it into the cardArt method to get the unicode card art
             artH[i] = cardArt(p.getHand().get(i));
         }
         String h = "";
         // Concatenate each card to the string h
-        for(int j = 0; j < artH.length; j++) {
+        for (int j = 0; j < artH.length; j++) {
             h += artH[j];
         }
         // Return the hand as actual playing cards
@@ -71,13 +72,13 @@ public class Game {
         //Character.toChars converts unicode values into an array of chars
         //The UniCodeVal of that specific card is added to this char value and the card art is formed
         // This value is then converted back into a string which turns it into card art
-        if(c.getSuit() == SPADES) {
+        if (c.getSuit() == SPADES) {
             return new String(Character.toChars(CARD_ART_SPADES + c.getUniCodeVal()));
-        } else if(c.getSuit() == HEARTS) {
+        } else if (c.getSuit() == HEARTS) {
             return new String(Character.toChars(CARD_ART_HEARTS + c.getUniCodeVal()));
-        } else if(c.getSuit() == DIAMONDS) {
+        } else if (c.getSuit() == DIAMONDS) {
             return new String(Character.toChars(CARD_ART_DIAMONDS + c.getUniCodeVal()));
-        } else if(c.getSuit() == CLUBS) {
+        } else if (c.getSuit() == CLUBS) {
             return new String(Character.toChars(CARD_ART_CLUBS + c.getUniCodeVal()));
         } else {
             //If none of the suits are shown, throw an error
@@ -91,19 +92,19 @@ public class Game {
         System.out.print("\nYour current hand: " + "\n" + player.toString() + "  " + cardArtHand(player));
         boolean notOver = true;
 
-        while(notOver) {
+        while (notOver) {
             System.out.println("\nDo you want to hit or stand?");
             String choice = s1.nextLine();
-            if(choice.equals("hit")) {
+            if (choice.equals("hit")) {
                 // If the player hits give them the next card
                 player.addCard(deck.deal());
                 System.out.println("\n\nYour current hand: \n" + player.toString() + cardArtHand(player));
                 // If this card causes them to lose, then exit the loop
-                if(player.isBusted()) {
+                if (player.isBusted()) {
                     System.out.println("You lose!");
                     return;
                 }
-            } else if(choice.equals("stand")) {
+            } else if (choice.equals("stand")) {
                 // If the user stands then their turn is over
                 notOver = false;
             } else {
@@ -115,11 +116,11 @@ public class Game {
     public void dealerTurn() {
         System.out.println("Dealer's Turn: \n" + dealer.toString() + cardArtHand(dealer));
         // To simulate the dealer advantage, they will always hit unless their score is greater
-        while(dealer.getPoints() < player.getPoints()) {
+        while (dealer.getPoints() < player.getPoints()) {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
             System.out.println("\n\nDealer's current hand: \n" + dealer.toString() + cardArtHand(dealer));
-            if(dealer.isBusted()) {
+            if (dealer.isBusted()) {
                 System.out.println("Dealer Loses!");
                 return;
             }
@@ -138,11 +139,11 @@ public class Game {
         System.out.println("Dealer: " + dScore);
 
         // Accounts for all scenarios in what the score could be
-        if(dScore > pScore) {
+        if (dScore > pScore) {
             System.out.println("Dealer Wins!");
-        } else if(pScore > dScore) {
+        } else if (pScore > dScore) {
             System.out.println("Player Wins!");
-        } else if(pScore == dScore) {
+        } else if (pScore == dScore) {
             System.out.println("Nobody Wins!");
         }
     }
@@ -154,11 +155,11 @@ public class Game {
 
         playerTurn();
 
-        if(!player.isBusted()) {
+        if (!player.isBusted()) {
             dealerTurn();
         }
         // Only determine winner if both people haven't lost
-        if(!player.isBusted() && !dealer.isBusted()) {
+        if (!player.isBusted() && !dealer.isBusted()) {
             determineWinner();
         }
     }
