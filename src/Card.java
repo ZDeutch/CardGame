@@ -2,13 +2,9 @@ public class Card {
     private String rank;
     private String suit;
     private int value;
+    // This is used to show the unique value of each card, regardless of if it's a face card
     private int uniCodeVal;
 
-//    Card(String r, String s, int v) {
-//        rank = r;
-//        suit = s;
-//        value = v;
-//    }
 
     Card(String r, String s, int v, int uni) {
         rank = r;
