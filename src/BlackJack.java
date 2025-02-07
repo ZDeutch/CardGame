@@ -1,9 +1,11 @@
+//BlackJack by Zander Deutch
 import java.util.Scanner;
 
-public class Game {
+public class BlackJack {
     private Deck deck;
     private Player player;
     private Player dealer;
+    private BlackJackViewer window;
     //Initialize each suit as a constant with their corresponding unicode value
     final static private String SPADES = "\u2660\uFE0F";
     final static private String HEARTS = "\u2665\uFE0F";
@@ -18,7 +20,9 @@ public class Game {
     final static private int CARD_ART_DIAMONDS = 0x1F0C1;
     Scanner s1 = new Scanner(System.in);
 
-    public Game() {
+    public BlackJack() {
+        this.window = new BlackJackViewer(this);
+
         // Create the characteristics of a deck of cards
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
         String[] suits = {SPADES, HEARTS, DIAMONDS, CLUBS};
@@ -27,19 +31,18 @@ public class Game {
         int[] uniCodeVal = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
         // Pass in arrays to create a shuffled deck of cards;
         deck = new Deck(ranks, suits, values, uniCodeVal);
-        deck.shuffle();
         System.out.println("What is your name?");
         player = new Player(s1.nextLine());
         dealer = new Player("Dealer");
+        deck.shuffle();
     }
 
-    public void printInstructions() {
-        System.out.println("In BlackJack, you play against the dealer in a game to 21");
-        System.out.println("You and the dealer will each be given a hand of two cards");
-        System.out.println("If you want another card to get closer to 21, then hit, otherwise stand");
-        System.out.println("If the dealer is closer to 21 by the end, then the dealer wins, otherwise you win");
-        System.out.println("Note: If you go over 21, then you bust and automatically lose");
-        System.out.println("All cards are their given value, face cards are 10, and Ace is either 1 or 11");
+    public String printInstructions() {
+        return "In BlackJack, you play against the dealer in a game to 21 \n You and the dealer will each be " +
+                "given a hand of two cards \n If you want another card to get closer to 21, then hit, otherwise stand \n " +
+                "If the dealer is closer to 21 by the end, then the dealer wins, otherwise you win \n Note: If " +
+                "you go over 21, then you bust and automatically lose \n All cards are their given value, face " +
+                "cards are 10, and Ace is either 1 or 11";
     }
 
     public void getFirstCards() {
@@ -150,7 +153,6 @@ public class Game {
 
     public void playGame() {
 
-        printInstructions();
         getFirstCards();
 
         playerTurn();
@@ -165,7 +167,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        BlackJack game = new BlackJack();
         game.playGame();
     }
 }

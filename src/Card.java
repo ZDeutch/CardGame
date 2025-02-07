@@ -1,16 +1,25 @@
+import java.awt.*;
+
+//BlackJack by Zander Deutch
 public class Card {
     private String rank;
     private String suit;
     private int value;
     // This is used to show the unique value of each card, regardless of if it's a face card
     private int uniCodeVal;
+    private BlackJackViewer table;
 
 
-    Card(String r, String s, int v, int uni) {
+    Card(BlackJackViewer table, String r, String s, int v, int uni) {
+        this.table = table;
         rank = r;
         suit = s;
         value = v;
         uniCodeVal = uni;
+    }
+
+    public void draw(Graphics g) {
+
     }
 
     public String getRank() {

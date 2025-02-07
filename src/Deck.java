@@ -1,8 +1,10 @@
+//BlackJack by Zander Deutch
 import java.util.ArrayList;
 
 public class Deck {
     private ArrayList<Card> deck;
     private int cardsLeft;
+    private BlackJackViewer table;
 
 
     public Deck(String[] ranks, String[] suits, int[] values, int[] uniCodeVal) {
@@ -11,7 +13,7 @@ public class Deck {
             for (int j = 0; j < suits.length; j++) {
                 // Each card's value, rank, and uniCodeVal is the same length, only the suits are changing
                 // This means that only a nested loop is needed
-                Card c1 = new Card(ranks[i], suits[j], values[i], uniCodeVal[i]);
+                Card c1 = new Card(table, ranks[i], suits[j], values[i], uniCodeVal[i]);
                 // Add each card to your deck once made
                 deck.add(c1);
             }
