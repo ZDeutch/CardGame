@@ -6,6 +6,7 @@ public class BlackJack {
     private Player player;
     private Player dealer;
     private BlackJackViewer window;
+    private int state;
     //Initialize each suit as a constant with their corresponding unicode value
     final static private String SPADES = "\u2660\uFE0F";
     final static private String HEARTS = "\u2665\uFE0F";
@@ -22,6 +23,7 @@ public class BlackJack {
 
     public BlackJack() {
         this.window = new BlackJackViewer(this);
+        state = 0;
 
         // Create the characteristics of a deck of cards
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
@@ -35,6 +37,12 @@ public class BlackJack {
         player = new Player(s1.nextLine());
         dealer = new Player("Dealer");
         deck.shuffle();
+
+        state = 1;
+        window.repaint();
+    }
+    public int getState() {
+        return state;
     }
 
     public void getFirstCards() {

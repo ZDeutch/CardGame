@@ -10,7 +10,7 @@ public class BlackJackViewer extends JFrame {
     public final static Color BACKGROUND = new Color(51, 99, 56);
     public final static int WINDOW_WIDTH = 800;
     public final static int WINDOW_HEIGHT = 800;
-    public final static int INSTRUCTIONS = 200;
+    public final static int INSTRUCTIONS = 10;
 
     public BlackJackViewer(BlackJack game) {
         this.game = game;
@@ -30,24 +30,39 @@ public class BlackJackViewer extends JFrame {
         instructions[3] = "If the dealer is closer to 21 by the end, then the dealer wins, otherwise you win";
         instructions[4] = "If you go over 21, then you bust and automatically lose";
         instructions[5] = "Note: All cards are their given value, face cards are 10, and Ace is either 1 or 11";
-        instructions[6] = "Click 1 to Continue";
+        instructions[6] = "Enter Your Name to Continue";
         return instructions;
     }
-    public void paint(Graphics g) {
+
+    public void printInstructions(Graphics g) {
         String[] steps = instructions();
-        Font paragraphFont = new Font("TIMES NEW ROMAN", Font.ITALIC, 17);
-        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, 30);
-        g.setColor(BACKGROUND);
-        g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        g.setColor(Color.BLACK);
+        Font paragraphFont = new Font("TIMES NEW ROMAN", Font.ITALIC, 24);
+        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, 50);
+        g.setColor(Color.WHITE);
         g.setFont(headerFont);
         String headerString = "Instructions";
-        g.drawString(headerString, 325, 250);
+        g.drawString(headerString, 280, 200);
         g.setFont(paragraphFont);
         for(int i = 0; i < steps.length - 1; i++) {
-            g.drawString(steps[i], INSTRUCTIONS, (300 + (i * 30)));
+            g.drawString(steps[i], INSTRUCTIONS, (300 + (i * 40)));
         }
-        g.drawString(steps[6], 330, 600);
+        g.drawString(steps[6], 280, 600);
+    }
+    public void gameScreen(Graphics g) {
+        g.drawString(game.player.toString(), 600, 10);
+    }
+
+
+    public void paint(Graphics g) {
+        g.setColor(BACKGROUND);
+        g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        if(game.getState() == 0) {
+            printInstructions(g);
+        } else if(game.getState() == 1) {
+            gameScreen(g);
+        }
 
     }
+
+
 }
