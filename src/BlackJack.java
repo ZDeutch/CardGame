@@ -37,14 +37,6 @@ public class BlackJack {
         deck.shuffle();
     }
 
-    public String printInstructions() {
-        return "In BlackJack, you play against the dealer in a game to 21 \n You and the dealer will each be " +
-                "given a hand of two cards \n If you want another card to get closer to 21, then hit, otherwise stand \n " +
-                "If the dealer is closer to 21 by the end, then the dealer wins, otherwise you win \n Note: If " +
-                "you go over 21, then you bust and automatically lose \n All cards are their given value, face " +
-                "cards are 10, and Ace is either 1 or 11";
-    }
-
     public void getFirstCards() {
         // Initialize the hands of the player and dealer, giving them both 2 cards
         player.addCard(deck.deal());
