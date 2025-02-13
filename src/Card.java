@@ -5,21 +5,18 @@ public class Card {
     private String rank;
     private String suit;
     private int value;
+    private Image image;
     // This is used to show the unique value of each card, regardless of if it's a face card
-    private int uniCodeVal;
+    // private int uniCodeVal;
     private BlackJackViewer table;
 
 
-    Card(BlackJackViewer table, String r, String s, int v, int uni) {
+    Card(BlackJackViewer table, String r, String s, int v, Image i) {
         this.table = table;
         rank = r;
         suit = s;
         value = v;
-        uniCodeVal = uni;
-    }
-
-    public void draw(Graphics g) {
-
+        image = i;
     }
 
     public String getRank() {
@@ -34,6 +31,10 @@ public class Card {
         return suit;
     }
 
+//    public void getUniCodeVal() {
+//        return uniCodeVal;
+//    }
+
     public void setSuit(String suit) {
         this.suit = suit;
     }
@@ -46,11 +47,11 @@ public class Card {
         this.value = value;
     }
 
-    public int getUniCodeVal() {
-        return uniCodeVal;
-    }
-
     public String toString() {
         return rank + " of " + suit;
+    }
+
+    public void draw(Graphics g) {
+        g.drawImage(image, 50, 50, null);
     }
 }

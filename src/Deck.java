@@ -1,4 +1,6 @@
 //BlackJack by Zander Deutch
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Deck {
@@ -7,13 +9,15 @@ public class Deck {
     private BlackJackViewer table;
 
 
-    public Deck(String[] ranks, String[] suits, int[] values, int[] uniCodeVal) {
+    public Deck(String[] ranks, String[] suits, int[] values) {
         deck = new ArrayList<Card>();
+        int counter = 1;
         for (int i = 0; i < ranks.length; i++) {
             for (int j = 0; j < suits.length; j++) {
-                // Each card's value, rank, and uniCodeVal is the same length, only the suits are changing
-                // This means that only a nested loop is needed
-                Card c1 = new Card(table, ranks[i], suits[j], values[i], uniCodeVal[i]);
+                String fileName = "resources/" + counter + ".png";
+                Image cardImage = new ImageIcon(fileName).getImage();
+                Card c1 = new Card(table, ranks[i], suits[j], values[i], cardImage);
+                counter++;
                 // Add each card to your deck once made
                 deck.add(c1);
             }

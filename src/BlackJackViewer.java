@@ -6,6 +6,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class BlackJackViewer extends JFrame {
     private BlackJack game;
+    private Card card;
 
     public final static Color BACKGROUND = new Color(51, 99, 56);
     public final static int WINDOW_WIDTH = 800;
@@ -49,7 +50,17 @@ public class BlackJackViewer extends JFrame {
         g.drawString(steps[6], 280, 600);
     }
     public void gameScreen(Graphics g) {
-        g.drawString(game.player.toString(), 600, 10);
+        Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, 24);
+        g.setColor(Color.WHITE);
+        g.setFont(scores);
+        g.drawRect(525,0,275,100);
+        g.drawString(game.getPlayer().toString(), 550, 50);
+        g.drawString(game.getDealer().toString(), 550, 75);
+        for(int i = 0; i < 2; i++) {
+            card.draw(g);
+        }
+
+
     }
 
 
