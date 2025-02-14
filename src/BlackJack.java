@@ -46,7 +46,7 @@ public class BlackJack {
         window.repaint();
     }
 
-    public void draw(Graphics g) {
+    public void drawPlayer(Graphics g) {
         ArrayList<Card> tempPlayerHand = getPlayer().getHand();
         ArrayList<Card> tempDealerHand = getDealer().getHand();
         for(int i = 0; i < tempPlayerHand.size(); i++) {
@@ -58,6 +58,16 @@ public class BlackJack {
             } else {
                 tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, false);
             }
+        }
+    }
+    public void drawDealer(Graphics g) {
+        ArrayList<Card> tempPlayerHand = getPlayer().getHand();
+        ArrayList<Card> tempDealerHand = getDealer().getHand();
+        for(int i = 0; i < tempPlayerHand.size(); i++) {
+            tempPlayerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), STARTING_HEIGHT, window, false);
+        }
+        for(int i = 0; i < tempDealerHand.size(); i++) {
+                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, false);
         }
     }
     public int getState() {
@@ -130,17 +140,18 @@ public class BlackJack {
                 player.addCard(deck.deal());
                 System.out.println("\n\nYour current hand: \n" + player.toString());
                 // If this card causes them to lose, then exit the loop
+                window.repaint();
                 if (player.isBusted()) {
                     System.out.println("You lose!");
                     return;
                 }
             } else if (choice.equals("stand")) {
+                state = 2;
                 // If the user stands then their turn is over
                 notOver = false;
             } else {
                 System.out.println("Wrong choice. Please enter either 'hit' or 'stand'");
             }
-            window.repaint();
         }
     }
 
@@ -151,14 +162,15 @@ public class BlackJack {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
             System.out.println("\n\nDealer's current hand: \n" + dealer.toString());
+            window.repaint();
             if (dealer.isBusted()) {
                 System.out.println("Dealer Loses!");
                 return;
             }
-            window.repaint();
         }
         // If the dealer loses or has more points, they stand
         System.out.println("Dealer Stands");
+        window.repaint();
     }
 
     public void determineWinner() {

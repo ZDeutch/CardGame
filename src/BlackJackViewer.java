@@ -49,7 +49,7 @@ public class BlackJackViewer extends JFrame {
         }
         g.drawString(steps[6], 280, 600);
     }
-    public void gameScreen(Graphics g) {
+    public void gameScreen1(Graphics g) {
         Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, 24);
         g.setColor(Color.WHITE);
         g.setFont(scores);
@@ -57,8 +57,20 @@ public class BlackJackViewer extends JFrame {
         g.drawString(game.getPlayer().toString(), 550, 50);
         g.drawString(game.getDealer().firstCard(), 550, 75);
         for(int i = 0; i < 2; i++) {
-            game.draw(g);
+            game.drawPlayer(g);
         }
+    }
+
+    public void gameScreen2(Graphics g) {
+        Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, 24);
+        g.setColor(Color.WHITE);
+        g.setFont(scores);
+        g.drawRect(525,0,275,100);
+        g.drawString(game.getPlayer().toString(), 550, 50);
+        g.drawString(game.getDealer().toString(), 550, 75);
+        game.drawDealer(g);
+
+
     }
 
 
@@ -68,7 +80,9 @@ public class BlackJackViewer extends JFrame {
         if(game.getState() == 0) {
             printInstructions(g);
         } else if(game.getState() == 1) {
-            gameScreen(g);
+            gameScreen1(g);
+        } else if(game.getState() == 2) {
+            gameScreen2(g);
         }
 
     }
