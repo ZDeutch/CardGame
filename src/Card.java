@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 //BlackJack by Zander Deutch
@@ -9,6 +10,9 @@ public class Card {
     // This is used to show the unique value of each card, regardless of if it's a face card
     // private int uniCodeVal;
     private BlackJackViewer table;
+    private Image cardDown;
+    final static int CARD_WIDTH = 80;
+    final static int CARD_HEIGHT = 100;
 
 
     Card(BlackJackViewer table, String r, String s, int v, Image i) {
@@ -17,6 +21,7 @@ public class Card {
         suit = s;
         value = v;
         image = i;
+        cardDown = new ImageIcon("Resources/back.png").getImage();
     }
 
     public String getRank() {
@@ -51,7 +56,11 @@ public class Card {
         return rank + " of " + suit;
     }
 
-    public void draw(Graphics g) {
-        g.drawImage(image, 50, 50, null);
+    public void draw(Graphics g, int x, int y, BlackJackViewer window, boolean facedown) {
+        if(facedown) {
+            g.drawImage(cardDown, x, y, CARD_WIDTH, CARD_HEIGHT, window);
+        } else {
+            g.drawImage(image, x, y, CARD_WIDTH, CARD_HEIGHT, window);
+        }
     }
 }

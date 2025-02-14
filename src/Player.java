@@ -26,7 +26,7 @@ public class Player {
 
     public int getPoints() {
         // rather than simply returning points, every time make sure the ace is accounted for
-        return computeAce();
+        return computeAce(hand.size());
     }
 
     public void addPoints(int p) {
@@ -47,19 +47,19 @@ public class Player {
     }
 
     public String firstCard() {
-       return name + " has " + computeAceSingle() + " points";
+       return name + " has " + computeAce(1) + " points";
     }
 
     public String toString() {
-        return name + " has " + computeAce() + " points";
+        return name + " has " + computeAce(hand.size()) + " points";
     }
 
     // This method decides whether an ace should be 11 or 1
-    public int computeAce() {
+    public int computeAce(int handSize) {
         int counter = 0;
         int tempPoints = 0;
         // See how many aces are in the hand
-        for (int i = 0; i < hand.size(); i++) {
+        for (int i = 0; i < handSize; i++) {
             if (hand.get(i).getRank() == "Ace") {
                 counter++;
                 continue;
@@ -79,27 +79,4 @@ public class Player {
             return tempPoints + counter;
         }
     }
-
-    public int computeAceSingle() {
-        int counter = 0;
-        int tempPoints = 0;
-        // See how many aces are in the hand
-            if (hand.get(0).getRank() == "Ace") {
-                counter++;
-            }
-            // Set tempPoints as a copy of points
-            tempPoints = hand.get(0).getValue();
-        // If their are no aces, points remain the same
-        if (counter == 0) {
-            return tempPoints;
-        } else {
-            // otherwise, if there is enough room, 1 ace is 11 and the rest are 1
-            if (21 - tempPoints >= (counter + 10)) {
-                return tempPoints + 10 + counter;
-            }
-            // if not, all aces are 1
-            return tempPoints + counter;
-        }
-    }
-
 }

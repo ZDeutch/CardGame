@@ -1,4 +1,6 @@
 //BlackJack by Zander Deutch
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BlackJack {
@@ -12,6 +14,8 @@ public class BlackJack {
     final static private String HEARTS = "\u2665\uFE0F";
     final static private String DIAMONDS = "\u2666\uFE0F";
     final static private String CLUBS = "\u2663\uFE0F";
+    final static int STARTING_WIDTH = 200;
+    final static int STARTING_HEIGHT = 600;
 
     //Every playing card in Unicode has a hex value + the true value of a card
     //Setting these constant variables as the hex for each suit
@@ -40,6 +44,21 @@ public class BlackJack {
 
         state = 1;
         window.repaint();
+    }
+
+    public void draw(Graphics g) {
+        ArrayList<Card> tempPlayerHand = getPlayer().getHand();
+        ArrayList<Card> tempDealerHand = getDealer().getHand();
+        for(int i = 0; i < tempPlayerHand.size(); i++) {
+            tempPlayerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), STARTING_HEIGHT, window, false);
+        }
+        for(int i = 0; i < tempDealerHand.size(); i++) {
+            if(i % 2 == 1) {
+                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, true);
+            } else {
+                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, false);
+            }
+        }
     }
     public int getState() {
         return state;
@@ -121,6 +140,7 @@ public class BlackJack {
             } else {
                 System.out.println("Wrong choice. Please enter either 'hit' or 'stand'");
             }
+            window.repaint();
         }
     }
 
@@ -135,6 +155,7 @@ public class BlackJack {
                 System.out.println("Dealer Loses!");
                 return;
             }
+            window.repaint();
         }
         // If the dealer loses or has more points, they stand
         System.out.println("Dealer Stands");

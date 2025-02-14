@@ -6,12 +6,12 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class BlackJackViewer extends JFrame {
     private BlackJack game;
-    private Card card;
 
     public final static Color BACKGROUND = new Color(51, 99, 56);
     public final static int WINDOW_WIDTH = 800;
     public final static int WINDOW_HEIGHT = 800;
     public final static int INSTRUCTIONS = 10;
+
 
     public BlackJackViewer(BlackJack game) {
         this.game = game;
@@ -55,12 +55,10 @@ public class BlackJackViewer extends JFrame {
         g.setFont(scores);
         g.drawRect(525,0,275,100);
         g.drawString(game.getPlayer().toString(), 550, 50);
-        g.drawString(game.getDealer().toString(), 550, 75);
+        g.drawString(game.getDealer().firstCard(), 550, 75);
         for(int i = 0; i < 2; i++) {
-            card.draw(g);
+            game.draw(g);
         }
-
-
     }
 
 
