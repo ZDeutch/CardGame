@@ -9,6 +9,7 @@ public class BlackJack {
     private Player dealer;
     private BlackJackViewer window;
     private int state;
+    private int playerWin;
     //Initialize each suit as a constant with their corresponding unicode value
     final static private String SPADES = "\u2660\uFE0F";
     final static private String HEARTS = "\u2665\uFE0F";
@@ -41,9 +42,6 @@ public class BlackJack {
         player = new Player(s1.nextLine());
         dealer = new Player("Dealer");
         deck.shuffle();
-
-        state = 1;
-        window.repaint();
     }
 
     public void drawPlayer(Graphics g) {
@@ -80,6 +78,10 @@ public class BlackJack {
 
     public Player getDealer() {
         return dealer;
+    }
+
+    public int getplayerWin() {
+        return playerWin;
     }
 
     public void getFirstCards() {
@@ -138,15 +140,14 @@ public class BlackJack {
             if (choice.equals("hit")) {
                 // If the player hits give them the next card
                 player.addCard(deck.deal());
+                window.repaint();
                 System.out.println("\n\nYour current hand: \n" + player.toString());
                 // If this card causes them to lose, then exit the loop
-                window.repaint();
                 if (player.isBusted()) {
                     System.out.println("You lose!");
                     return;
                 }
             } else if (choice.equals("stand")) {
-                state = 2;
                 // If the user stands then their turn is over
                 notOver = false;
             } else {
@@ -158,11 +159,10 @@ public class BlackJack {
     public void dealerTurn() {
         System.out.println("Dealer's Turn: \n" + dealer.toString());
         // To simulate the dealer advantage, they will always hit unless their score is greater
-        while (dealer.getPoints() < player.getPoints()) {
+        while (dealer.getPoints() < 17) {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
             System.out.println("\n\nDealer's current hand: \n" + dealer.toString());
-            window.repaint();
             if (dealer.isBusted()) {
                 System.out.println("Dealer Loses!");
                 return;
@@ -170,7 +170,6 @@ public class BlackJack {
         }
         // If the dealer loses or has more points, they stand
         System.out.println("Dealer Stands");
-        window.repaint();
     }
 
     public void determineWinner() {
@@ -184,27 +183,33 @@ public class BlackJack {
 
         // Accounts for all scenarios in what the score could be
         if (dScore > pScore) {
-            System.out.println("Dealer Wins!");
+            System.out.println("You Lose!");
+            playerWin = 1;
         } else if (pScore > dScore) {
-            System.out.println("Player Wins!");
-        } else if (pScore == dScore) {
+            System.out.println("You Win!");
+            playerWin = 2;
+        } else {
             System.out.println("Nobody Wins!");
+            playerWin = 3;
+
         }
     }
 
     public void playGame() {
-
+        state = 1;
+        window.repaint();
         getFirstCards();
-
         playerTurn();
 
         if (!player.isBusted()) {
+            state = 2;
+            window.repaint();
             dealerTurn();
         }
-        // Only determine winner if both people haven't lost
-        if (!player.isBusted() && !dealer.isBusted()) {
-            determineWinner();
-        }
+
+        determineWinner();
+        state = 3;
+        window.repaint();
     }
 
     public static void main(String[] args) {

@@ -69,8 +69,28 @@ public class BlackJackViewer extends JFrame {
         g.drawString(game.getPlayer().toString(), 550, 50);
         g.drawString(game.getDealer().toString(), 550, 75);
         game.drawDealer(g);
+    }
 
-
+    public void endScreen(Graphics g) {
+        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, 50);
+        g.setColor(Color.WHITE);
+        g.setFont(headerFont);
+        if(game.getplayerWin() == 1) {
+            Font f = g.getFont();
+            String loser = "You Lose!";
+            int stringLength = g.getFontMetrics(f).stringWidth(loser) / 2;
+            g.drawString(loser, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
+        } else if(game.getplayerWin() == 2) {
+            Font f = g.getFont();
+            String winner = "You Win!";
+            int stringLength = g.getFontMetrics(f).stringWidth(winner) / 2;
+            g.drawString(winner, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
+        } else if(game.getplayerWin() == 3) {
+            Font f = g.getFont();
+            String nobody = "Nobody Wins!";
+            int stringLength = g.getFontMetrics(f).stringWidth(nobody) / 2;
+            g.drawString(nobody, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
+        }
     }
 
 
@@ -83,6 +103,8 @@ public class BlackJackViewer extends JFrame {
             gameScreen1(g);
         } else if(game.getState() == 2) {
             gameScreen2(g);
+        } else if(game.getState() == 3) {
+            endScreen(g);
         }
 
     }
