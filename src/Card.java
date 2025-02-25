@@ -3,24 +3,21 @@ import java.awt.*;
 
 //BlackJack by Zander Deutch
 public class Card {
-    private String rank;
-    private String suit;
-    private int value;
-    private Image image;
-    // This is used to show the unique value of each card, regardless of if it's a face card
-    // private int uniCodeVal;
-    private BlackJackViewer table;
-    private Image cardDown;
-    final static int CARD_WIDTH = 80;
-    final static int CARD_HEIGHT = 100;
+    // Instance variables
+    private final String rank;
+    private final String suit;
+    private final int value;
+    private final Image image;
+    private final Image cardDown;
 
-
-    Card(BlackJackViewer table, String r, String s, int v, Image i) {
-        this.table = table;
+    // Constructor
+    Card(String r, String s, int v, Image i) {
         rank = r;
         suit = s;
         value = v;
         image = i;
+
+        // initialize cardDown to upside down card
         cardDown = new ImageIcon("Resources/back.png").getImage();
     }
 
@@ -28,39 +25,22 @@ public class Card {
         return rank;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public String getSuit() {
-        return suit;
-    }
-
-//    public void getUniCodeVal() {
-//        return uniCodeVal;
-//    }
-
-    public void setSuit(String suit) {
-        this.suit = suit;
-    }
-
     public int getValue() {
         return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public String toString() {
         return rank + " of " + suit;
     }
 
+    // Draw each card using the given parameters
     public void draw(Graphics g, int x, int y, BlackJackViewer window, boolean facedown) {
-        if(facedown) {
-            g.drawImage(cardDown, x, y, CARD_WIDTH, CARD_HEIGHT, window);
+
+        // If face down, then draw the card using instance variable
+        if (facedown) {
+            g.drawImage(cardDown, x, y, BlackJackViewer.CARD_WIDTH, BlackJackViewer.CARD_HEIGHT, window);
         } else {
-            g.drawImage(image, x, y, CARD_WIDTH, CARD_HEIGHT, window);
+            g.drawImage(image, x, y, BlackJackViewer.CARD_WIDTH, BlackJackViewer.CARD_HEIGHT, window);
         }
     }
 }

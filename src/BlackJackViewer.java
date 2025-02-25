@@ -1,29 +1,61 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class BlackJackViewer extends JFrame {
-    private BlackJack game;
 
-    public final static Color BACKGROUND = new Color(51, 99, 56);
+    // Gives frontend access to backend
+    private final BlackJack game;
+
+    // Images for hit and stand button
+    private final Image hit;
+    private final Image stand;
+
+    // Image to display back of card
+    private final Image back;
+
+    // Sets the window size and title size
     public final static int WINDOW_WIDTH = 800;
     public final static int WINDOW_HEIGHT = 800;
-    public final static int INSTRUCTIONS = 10;
+    public final static int HEADER_HEIGHT = 40;
+
+    // Determines the background color and size for fonts used
+    public final static Color BACKGROUND = new Color(51, 99, 56);
+    public final static int INSTRUCTIONS = WINDOW_WIDTH / 10;
+    public final static int SCOREBOARD_SIZE = WINDOW_WIDTH / 40;
+
+    // Establishes the size of Cards
+    public final static int CARD_WIDTH = WINDOW_WIDTH / 10;
+    public final static int CARD_HEIGHT = WINDOW_HEIGHT / 8;
+
+    // Sets constants for creating hit and stand button
+    public final static int BUTTON_WIDTH = WINDOW_WIDTH / 8;
+    public final static int BUTTON_HEIGHT = WINDOW_WIDTH / 8;
+    public final static int BUTTON_X = (WINDOW_WIDTH / 2) - (BUTTON_WIDTH / 2);
+    public final static int BUTTON_Y = (int) (WINDOW_HEIGHT * .5);
+
+    // Constants for leaderboard in corner
+    public final static int STARTING_HEIGHT = (int) (WINDOW_WIDTH * .75);
+    public final static int STARTING_WIDTH = WINDOW_HEIGHT / 2;
 
 
     public BlackJackViewer(BlackJack game) {
+
+        // Initialize instance variables
         this.game = game;
+        hit = new ImageIcon("Resources/hit_button.png").getImage();
+        stand = new ImageIcon("Resources/stand_button.png").getImage();
+        back = new ImageIcon("Resources/back.png").getImage();
 
 
-        // Setup the window and the buffer strategy.
+        // Setup the window using constants
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("BlackJack");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
     }
+
     public String[] instructions() {
+        // Print instructions via an array of strings so line breaks are clean
         String[] instructions = new String[7];
         instructions[0] = "In BlackJack, you play against the dealer in a game to 21";
         instructions[1] = "You and the dealer will each be given a hand of two cards";
@@ -37,77 +69,107 @@ public class BlackJackViewer extends JFrame {
 
     public void printInstructions(Graphics g) {
         String[] steps = instructions();
-        Font paragraphFont = new Font("TIMES NEW ROMAN", Font.ITALIC, 24);
-        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, 50);
+
+        // Set fonts for header and instructions
+        Font paragraphFont = new Font("TIMES NEW ROMAN", Font.ITALIC, SCOREBOARD_SIZE);
+        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, WINDOW_HEIGHT / 16);
         g.setColor(Color.WHITE);
         g.setFont(headerFont);
+
+        // Draw the header for instructions
         String headerString = "Instructions";
-        g.drawString(headerString, 280, 200);
+        g.drawString(headerString, WINDOW_WIDTH / 3, WINDOW_HEIGHT / 4);
         g.setFont(paragraphFont);
-        for(int i = 0; i < steps.length - 1; i++) {
-            g.drawString(steps[i], INSTRUCTIONS, (300 + (i * 40)));
+
+        // Print each string in array
+        for (int i = 0; i < steps.length - 1; i++) {
+            g.drawString(steps[i], INSTRUCTIONS, STARTING_WIDTH + (i * (WINDOW_WIDTH / 20)));
         }
-        g.drawString(steps[6], 280, 600);
+
+        // Print last string lower on the screen
+        g.drawString(steps[6], WINDOW_WIDTH / 3, (int) (WINDOW_HEIGHT * .90));
     }
-    public void gameScreen1(Graphics g) {
-        Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, 24);
+
+    public void gameScreenGeneral(Graphics g) {
+        // Set the scoreboard font
+        Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, SCOREBOARD_SIZE);
         g.setColor(Color.WHITE);
         g.setFont(scores);
-        g.drawRect(525,0,275,100);
-        g.drawString(game.getPlayer().toString(), 550, 50);
-        g.drawString(game.getDealer().firstCard(), 550, 75);
-        for(int i = 0; i < 2; i++) {
-            game.drawPlayer(g);
-        }
+
+        // Draw the buttons and deck card in the middle of screen
+        g.drawImage(hit, BUTTON_X - BUTTON_WIDTH, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, this);
+        g.drawImage(stand, BUTTON_X + BUTTON_WIDTH, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT, this);
+        g.drawImage(back, BUTTON_X, BUTTON_Y, CARD_WIDTH, CARD_HEIGHT, this);
+
+        // Draw scoreboard in top right corner
+        g.drawRect((int) (WINDOW_HEIGHT * .65), 0, (int) (WINDOW_WIDTH * .35), (int) (HEADER_HEIGHT * 2));
+        g.drawString(game.getPlayer().toString(), (int) (WINDOW_WIDTH * .66), HEADER_HEIGHT + 1);
+        g.drawString(game.getDealer().firstCard(), (int) (WINDOW_WIDTH * .66), HEADER_HEIGHT + 1 + SCOREBOARD_SIZE);
+    }
+
+    public void gameScreen1(Graphics g) {
+        gameScreenGeneral(g);
+        // Draw the player's opening cards
+        game.drawPlayer(g);
     }
 
     public void gameScreen2(Graphics g) {
-        Font scores = new Font("TIMES NEW ROMAN", Font.BOLD, 24);
-        g.setColor(Color.WHITE);
-        g.setFont(scores);
-        g.drawRect(525,0,275,100);
-        g.drawString(game.getPlayer().toString(), 550, 50);
-        g.drawString(game.getDealer().toString(), 550, 75);
+        gameScreenGeneral(g);
+        // Draw the dealer's cards with one face down
         game.drawDealer(g);
     }
 
     public void endScreen(Graphics g) {
-        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, 50);
-        g.setColor(Color.WHITE);
-        g.setFont(headerFont);
-        if(game.getplayerWin() == 1) {
-            Font f = g.getFont();
-            String loser = "You Lose!";
-            int stringLength = g.getFontMetrics(f).stringWidth(loser) / 2;
-            g.drawString(loser, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
-        } else if(game.getplayerWin() == 2) {
-            Font f = g.getFont();
-            String winner = "You Win!";
-            int stringLength = g.getFontMetrics(f).stringWidth(winner) / 2;
-            g.drawString(winner, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
-        } else if(game.getplayerWin() == 3) {
-            Font f = g.getFont();
-            String nobody = "Nobody Wins!";
-            int stringLength = g.getFontMetrics(f).stringWidth(nobody) / 2;
-            g.drawString(nobody, (WINDOW_WIDTH / 2) - stringLength, (WINDOW_WIDTH / 2));
+        gameScreen2(g);
+
+        // Use a 2d Graphic to paint a translucent screen over the board
+        // Doing so makes the final screen more prominent while allowing player to see the dealers cards
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+        g2d.setColor(Color.GRAY);
+        g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        // Depending on who won, print different messages
+        if (game.getplayerWin() == 1) {
+            drawCenteredString(g, "You Lose!");
+        } else if (game.getplayerWin() == 2) {
+            drawCenteredString(g, "You Win!");
+        } else if (game.getplayerWin() == 3) {
+            drawCenteredString(g, "Nobody Wins!");
         }
+    }
+
+    // This method prints any string on the center of the screen
+    public void drawCenteredString(Graphics g, String s) {
+
+        // Make the font red for prominence
+        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, WINDOW_WIDTH / 16);
+        g.setColor(Color.RED);
+        g.setFont(headerFont);
+        Font f = g.getFont();
+
+        //Get half of the string length using Font methods
+        int halfStringLength = g.getFontMetrics(f).stringWidth(s) / 2;
+
+        // Draw string on center of screen minus half the string length
+        g.drawString(s, (WINDOW_WIDTH / 2) - halfStringLength, (WINDOW_WIDTH / 2));
     }
 
 
     public void paint(Graphics g) {
+        // Draw the background for game
         g.setColor(BACKGROUND);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        if(game.getState() == 0) {
+
+        // Go to different game screens depending on state
+        if (game.getState() == 0) {
             printInstructions(g);
-        } else if(game.getState() == 1) {
+        } else if (game.getState() == 1) {
             gameScreen1(g);
-        } else if(game.getState() == 2) {
+        } else if (game.getState() == 2) {
             gameScreen2(g);
-        } else if(game.getState() == 3) {
+        } else if (game.getState() == 3) {
             endScreen(g);
         }
-
     }
-
-
 }

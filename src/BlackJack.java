@@ -1,73 +1,80 @@
 //BlackJack by Zander Deutch
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BlackJack {
-    private Deck deck;
-    private Player player;
-    private Player dealer;
-    private BlackJackViewer window;
+
+    // Create instance variables
+    private final Deck deck;
+    private final Player player;
+    private final Player dealer;
+    private final BlackJackViewer window;
     private int state;
     private int playerWin;
-    //Initialize each suit as a constant with their corresponding unicode value
-    final static private String SPADES = "\u2660\uFE0F";
-    final static private String HEARTS = "\u2665\uFE0F";
-    final static private String DIAMONDS = "\u2666\uFE0F";
-    final static private String CLUBS = "\u2663\uFE0F";
-    final static int STARTING_WIDTH = 200;
-    final static int STARTING_HEIGHT = 600;
 
-    //Every playing card in Unicode has a hex value + the true value of a card
-    //Setting these constant variables as the hex for each suit
-//    final static private int CARD_ART_SPADES = 0x1F0A1;
-//    final static private int CARD_ART_CLUBS = 0x1F0D1;
-//    final static private int CARD_ART_HEARTS = 0x1F0B1;
-//    final static private int CARD_ART_DIAMONDS = 0x1F0C1;
+    // Create scanner object
     Scanner s1 = new Scanner(System.in);
 
     public BlackJack() {
+
+        // Initialize instance variables
         this.window = new BlackJackViewer(this);
+
+        // Set state to 0 which prints instructions
         state = 0;
 
         // Create the characteristics of a deck of cards
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
-        String[] suits = {SPADES, HEARTS, DIAMONDS, CLUBS};
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
         int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
-        // uniCodeVal is made for each cards "true" order in a deck, so that I can generate the card art easily
-        //int[] uniCodeVal = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
         // Pass in arrays to create a shuffled deck of cards;
         deck = new Deck(ranks, suits, values);
         System.out.println("What is your name?");
+
+        // Initialize player names
         player = new Player(s1.nextLine());
         dealer = new Player("Dealer");
+
+        // Have the deck shuffle itself
         deck.shuffle();
     }
 
+    // This method makes the player draw their
     public void drawPlayer(Graphics g) {
+        // Make local arrays for the player's hands
         ArrayList<Card> tempPlayerHand = getPlayer().getHand();
         ArrayList<Card> tempDealerHand = getDealer().getHand();
-        for(int i = 0; i < tempPlayerHand.size(); i++) {
-            tempPlayerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), STARTING_HEIGHT, window, false);
+
+        // Print every card as face up in the middle of the screen
+        for (int i = 0; i < tempPlayerHand.size(); i++) {
+            tempPlayerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.STARTING_HEIGHT, window, false);
         }
-        for(int i = 0; i < tempDealerHand.size(); i++) {
-            if(i % 2 == 1) {
-                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, true);
+        for (int i = 0; i < tempDealerHand.size(); i++) {
+            // draw the dealer's first card as face down initially
+            if (i % 2 == 1) {
+                tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, true);
             } else {
-                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, false);
+                tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, false);
             }
         }
     }
+
+    // This method redraws the player's hands, but this time every card face up
     public void drawDealer(Graphics g) {
         ArrayList<Card> tempPlayerHand = getPlayer().getHand();
         ArrayList<Card> tempDealerHand = getDealer().getHand();
-        for(int i = 0; i < tempPlayerHand.size(); i++) {
-            tempPlayerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), STARTING_HEIGHT, window, false);
+        for (int i = 0; i < tempPlayerHand.size(); i++) {
+            tempPlayerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.STARTING_HEIGHT, window, false);
         }
-        for(int i = 0; i < tempDealerHand.size(); i++) {
-                tempDealerHand.get(i).draw(g, STARTING_WIDTH + (i * Card.CARD_WIDTH), 100, window, false);
+        for (int i = 0; i < tempDealerHand.size(); i++) {
+            tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, false);
         }
     }
+
+    // Getters
     public int getState() {
         return state;
     }
@@ -91,43 +98,6 @@ public class BlackJack {
         dealer.addCard(deck.deal());
         dealer.addCard(deck.deal());
     }
-
-//    public String cardArtHand(Player p) {
-//        // Create an array the size of the player's hand
-//        String[] artH = new String[p.getHand().size()];
-//        for (int i = 0; i < p.getHand().size(); i++) {
-//            //For each card, pass it into the cardArt method to get the unicode card art
-//            artH[i] = cardArt(p.getHand().get(i));
-//        }
-//        String h = "";
-//        // Concatenate each card to the string h
-//        for (int j = 0; j < artH.length; j++) {
-//            h += artH[j];
-//        }
-//        // Return the hand as actual playing cards
-//        return h;
-//
-//    }
-
-//    public static String cardArt(Card c) {
-//        //For each card check what suit it is depicting
-//        //Character.toChars converts unicode values into an array of chars
-//        //The UniCodeVal of that specific card is added to this char value and the card art is formed
-//        // This value is then converted back into a string which turns it into card art
-//        if (c.getSuit() == SPADES) {
-//            return new String(Character.toChars(CARD_ART_SPADES + c.getUniCodeVal()));
-//        } else if (c.getSuit() == HEARTS) {
-//            return new String(Character.toChars(CARD_ART_HEARTS + c.getUniCodeVal()));
-//        } else if (c.getSuit() == DIAMONDS) {
-//            return new String(Character.toChars(CARD_ART_DIAMONDS + c.getUniCodeVal()));
-//        } else if (c.getSuit() == CLUBS) {
-//            return new String(Character.toChars(CARD_ART_CLUBS + c.getUniCodeVal()));
-//        } else {
-//            //If none of the suits are shown, throw an error
-//            System.out.println("Unknown Suit Encountered.");
-//            return "";
-//        }
-//    }
 
     public void playerTurn() {
         // Show the user's current hand
@@ -158,7 +128,7 @@ public class BlackJack {
 
     public void dealerTurn() {
         System.out.println("Dealer's Turn: \n" + dealer.toString());
-        // To simulate the dealer advantage, they will always hit unless their score is greater
+        // To simulate the dealer advantage, they will always hit unless their score is greater than 17
         while (dealer.getPoints() < 17) {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
@@ -182,31 +152,41 @@ public class BlackJack {
         System.out.println("Dealer: " + dScore);
 
         // Accounts for all scenarios in what the score could be
-        if (dScore > pScore) {
+        if (pScore > 21) {
             System.out.println("You Lose!");
+            // for every scenario, update playerWin to display accurate end screen
             playerWin = 1;
+        } else if (dScore > 21) {
+            System.out.println("You Win!");
+            playerWin = 2;
+            // If both players haven't busted, compare scores
         } else if (pScore > dScore) {
             System.out.println("You Win!");
             playerWin = 2;
+        } else if (dScore > pScore) {
+            System.out.println("You Lose!");
+            playerWin = 1;
         } else {
             System.out.println("Nobody Wins!");
             playerWin = 3;
-
         }
     }
 
     public void playGame() {
+        // Once game starts, change states to first game screen
         state = 1;
         window.repaint();
         getFirstCards();
         playerTurn();
 
         if (!player.isBusted()) {
+            // If the dealer gets a turn, then state changes
             state = 2;
             window.repaint();
             dealerTurn();
         }
 
+        // Otherwise, determine the winner and switch to the end screen
         determineWinner();
         state = 3;
         window.repaint();
@@ -217,6 +197,3 @@ public class BlackJack {
         game.playGame();
     }
 }
-
-
-

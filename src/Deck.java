@@ -1,12 +1,12 @@
 //BlackJack by Zander Deutch
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Deck {
-    private ArrayList<Card> deck;
+    private final ArrayList<Card> deck;
     private int cardsLeft;
-    private BlackJackViewer table;
 
 
     public Deck(String[] ranks, String[] suits, int[] values) {
@@ -16,7 +16,7 @@ public class Deck {
             for (int j = 0; j < suits.length; j++) {
                 String fileName = "resources/" + counter + ".png";
                 Image cardImage = new ImageIcon(fileName).getImage();
-                Card c1 = new Card(table, ranks[i], suits[j], values[i], cardImage);
+                Card c1 = new Card(ranks[i], suits[j], values[i], cardImage);
                 counter++;
                 // Add each card to your deck once made
                 deck.add(c1);
@@ -31,10 +31,6 @@ public class Deck {
             return true;
         }
         return false;
-    }
-
-    public int getCardsLeft() {
-        return cardsLeft;
     }
 
     public Card deal() {

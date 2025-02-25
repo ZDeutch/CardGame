@@ -1,4 +1,5 @@
 //BlackJack by Zander Deutch
+
 import java.util.ArrayList;
 
 public class Player {
@@ -11,13 +12,6 @@ public class Player {
         this.name = name;
         points = 0;
         hand = new ArrayList<Card>();
-    }
-
-    Player(String name, ArrayList<Card> c) {
-        this.name = name;
-        points = 0;
-        hand = c;
-
     }
 
     public ArrayList<Card> getHand() {
@@ -47,7 +41,7 @@ public class Player {
     }
 
     public String firstCard() {
-       return name + " has " + computeAce(1) + " points";
+        return name + " has " + computeAce(1) + " points";
     }
 
     public String toString() {
