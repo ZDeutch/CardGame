@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class BlackJack {
 
-    // Create instance variables
+    // Instance variables
     private final Deck deck;
     private final Player player;
     private final Player dealer;
@@ -17,6 +17,7 @@ public class BlackJack {
     // Create scanner object
     Scanner s1 = new Scanner(System.in);
 
+    // Constructor
     public BlackJack() {
 
         // Initialize instance variables
@@ -54,11 +55,7 @@ public class BlackJack {
         }
         for (int i = 0; i < tempDealerHand.size(); i++) {
             // draw the dealer's first card as face down initially
-            if (i % 2 == 1) {
-                tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, true);
-            } else {
-                tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, false);
-            }
+            tempDealerHand.get(i).draw(g, BlackJackViewer.STARTING_WIDTH - (i * BlackJackViewer.CARD_WIDTH), BlackJackViewer.WINDOW_WIDTH / 8, window, i % 2 == 1);
         }
     }
 
@@ -87,7 +84,7 @@ public class BlackJack {
         return dealer;
     }
 
-    public int getplayerWin() {
+    public int getPlayerWin() {
         return playerWin;
     }
 
@@ -111,7 +108,7 @@ public class BlackJack {
                 // If the player hits give them the next card
                 player.addCard(deck.deal());
                 window.repaint();
-                System.out.println("\n\nYour current hand: \n" + player.toString());
+                System.out.println("\n\nYour current hand: \n" + player);
                 // If this card causes them to lose, then exit the loop
                 if (player.isBusted()) {
                     System.out.println("You lose!");
@@ -132,7 +129,7 @@ public class BlackJack {
         while (dealer.getPoints() < 17) {
             System.out.println("Dealer hits");
             dealer.addCard(deck.deal());
-            System.out.println("\n\nDealer's current hand: \n" + dealer.toString());
+            System.out.println("\n\nDealer's current hand: \n" + dealer);
             if (dealer.isBusted()) {
                 System.out.println("Dealer Loses!");
                 return;

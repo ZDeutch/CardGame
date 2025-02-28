@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-//BlackJack by Zander Deutch
 public class Card {
     // Instance variables
     private final String rank;
@@ -34,10 +33,10 @@ public class Card {
     }
 
     // Draw each card using the given parameters
-    public void draw(Graphics g, int x, int y, BlackJackViewer window, boolean facedown) {
+    public void draw(Graphics g, int x, int y, BlackJackViewer window, boolean faceDown) {
 
         // If face down, then draw the card using instance variable
-        if (facedown) {
+        if (faceDown) {
             g.drawImage(cardDown, x, y, BlackJackViewer.CARD_WIDTH, BlackJackViewer.CARD_HEIGHT, window);
         } else {
             g.drawImage(image, x, y, BlackJackViewer.CARD_WIDTH, BlackJackViewer.CARD_HEIGHT, window);

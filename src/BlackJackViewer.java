@@ -47,7 +47,7 @@ public class BlackJackViewer extends JFrame {
         back = new ImageIcon("Resources/back.png").getImage();
 
 
-        // Setup the window using constants
+        // Set up the window using constants
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("BlackJack");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -102,23 +102,26 @@ public class BlackJackViewer extends JFrame {
         g.drawImage(back, BUTTON_X, BUTTON_Y, CARD_WIDTH, CARD_HEIGHT, this);
 
         // Draw scoreboard in top right corner
-        g.drawRect((int) (WINDOW_HEIGHT * .65), 0, (int) (WINDOW_WIDTH * .35), (int) (HEADER_HEIGHT * 2));
+        g.drawRect((int) (WINDOW_HEIGHT * .65), 0, (int) (WINDOW_WIDTH * .35), HEADER_HEIGHT * 2);
         g.drawString(game.getPlayer().toString(), (int) (WINDOW_WIDTH * .66), HEADER_HEIGHT + 1);
         g.drawString(game.getDealer().firstCard(), (int) (WINDOW_WIDTH * .66), HEADER_HEIGHT + 1 + SCOREBOARD_SIZE);
     }
 
+    // Game screen for player turn
     public void gameScreen1(Graphics g) {
         gameScreenGeneral(g);
         // Draw the player's opening cards
         game.drawPlayer(g);
     }
 
+    // Game screen for dealer turn
     public void gameScreen2(Graphics g) {
         gameScreenGeneral(g);
         // Draw the dealer's cards with one face down
         game.drawDealer(g);
     }
 
+    // End screen for final results
     public void endScreen(Graphics g) {
         gameScreen2(g);
 
@@ -130,16 +133,16 @@ public class BlackJackViewer extends JFrame {
         g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // Depending on who won, print different messages
-        if (game.getplayerWin() == 1) {
+        if (game.getPlayerWin() == 1) {
             drawCenteredString(g, "You Lose!");
-        } else if (game.getplayerWin() == 2) {
+        } else if (game.getPlayerWin() == 2) {
             drawCenteredString(g, "You Win!");
-        } else if (game.getplayerWin() == 3) {
+        } else if (game.getPlayerWin() == 3) {
             drawCenteredString(g, "Nobody Wins!");
         }
     }
 
-    // This method prints any string on the center of the screen
+    // This method prints any string in the center of the screen
     public void drawCenteredString(Graphics g, String s) {
 
         // Make the font red for prominence

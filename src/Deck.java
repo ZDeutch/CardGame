@@ -1,22 +1,21 @@
-//BlackJack by Zander Deutch
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Deck {
+    // Instance Variables
     private final ArrayList<Card> deck;
     private int cardsLeft;
 
-
+    // Constructor
     public Deck(String[] ranks, String[] suits, int[] values) {
-        deck = new ArrayList<Card>();
+        deck = new ArrayList<>();
         int counter = 1;
         for (int i = 0; i < ranks.length; i++) {
-            for (int j = 0; j < suits.length; j++) {
+            for (String suit : suits) {
                 String fileName = "resources/" + counter + ".png";
                 Image cardImage = new ImageIcon(fileName).getImage();
-                Card c1 = new Card(ranks[i], suits[j], values[i], cardImage);
+                Card c1 = new Card(ranks[i], suit, values[i], cardImage);
                 counter++;
                 // Add each card to your deck once made
                 deck.add(c1);
@@ -27,10 +26,7 @@ public class Deck {
     }
 
     public boolean isEmpty(int cardsLeft) {
-        if (cardsLeft == 0) {
-            return true;
-        }
-        return false;
+        return cardsLeft == 0;
     }
 
     public Card deal() {

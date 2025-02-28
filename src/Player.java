@@ -1,17 +1,16 @@
-//BlackJack by Zander Deutch
-
 import java.util.ArrayList;
 
 public class Player {
-    private String name;
-    private ArrayList<Card> hand;
+    // Instance Variables
+    private final String name;
+    private final ArrayList<Card> hand;
     private int points;
-    private BlackJackViewer window;
 
+    // Constructor
     Player(String name) {
         this.name = name;
         points = 0;
-        hand = new ArrayList<Card>();
+        hand = new ArrayList<>();
     }
 
     public ArrayList<Card> getHand() {
@@ -34,10 +33,7 @@ public class Player {
 
     public boolean isBusted() {
         // Makes sure that the user hasn't gone over 21 and lost
-        if (points > 21) {
-            return true;
-        }
-        return false;
+        return points > 21;
     }
 
     public String firstCard() {
@@ -54,14 +50,14 @@ public class Player {
         int tempPoints = 0;
         // See how many aces are in the hand
         for (int i = 0; i < handSize; i++) {
-            if (hand.get(i).getRank() == "Ace") {
+            if (hand.get(i).getRank().equals("Ace")) {
                 counter++;
                 continue;
             }
             // Set tempPoints as a copy of points
             tempPoints += hand.get(i).getValue();
         }
-        // If their are no aces, points remain the same
+        // If there are no aces, points remain the same
         if (counter == 0) {
             return tempPoints;
         } else {
