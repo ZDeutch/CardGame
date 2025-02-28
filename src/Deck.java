@@ -1,3 +1,5 @@
+// BlackJack by Zander Deutch
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ public class Deck {
             }
         }
         cardsLeft = deck.size();
+
+        // Have the deck shuffle itself
+        shuffle();
 
     }
 

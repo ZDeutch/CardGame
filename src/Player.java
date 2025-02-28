@@ -1,3 +1,5 @@
+// BlackJack by Zander Deutch
+
 import java.util.ArrayList;
 
 public class Player {

@@ -1,4 +1,6 @@
-//BlackJack by Zander Deutch
+// BlackJack by Zander Deutch
+// February-27-2025
+// A front-end version of blackjack, with a player and automatic dealer
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -39,8 +41,6 @@ public class BlackJack {
         player = new Player(s1.nextLine());
         dealer = new Player("Dealer");
 
-        // Have the deck shuffle itself
-        deck.shuffle();
     }
 
     // This method makes the player draw their
